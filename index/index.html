@@ -1,244 +1,249 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crypto Neon Casino — Играй и Выигрывай</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #0f001a, #1a0033);
-      color: #e0d0ff;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image: url('https://thumbs.dreamstime.com/b/empty-casino-filled-slot-machines-bright-neon-lights-glow-futuristic-tech-await-players-las-vegas-style-ambiance-ideal-345402484.jpg');
-      background-size: cover;
-      background-attachment: fixed;
-    }
-    header {
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #ff00ff;
-      box-shadow: 0 0 30px #ff00ff;
-    }
-    h1 {
-      font-size: 3.5rem;
-      text-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
-      background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-    .balance-panel {
-      background: rgba(20,0,40,0.8);
-      border: 2px solid #00ffff;
-      border-radius: 15px;
-      padding: 20px;
-      margin: 20px 0;
-      text-align: center;
-      box-shadow: 0 0 30px #00ffff;
-    }
-    .balance { font-size: 2.5rem; color: #ffd700; text-shadow: 0 0 15px #ffd700; }
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin: 40px 0;
-    }
-    .game-card {
-      background: linear-gradient(145deg, #2a004a, #0f001a);
-      border: 2px solid #ff00ff;
-      border-radius: 20px;
-      padding: 20px;
-      text-align: center;
-      transition: all 0.4s;
-      box-shadow: 0 0 20px rgba(255,0,255,0.4);
-    }
-    .game-card:hover {
-      transform: scale(1.08);
-      box-shadow: 0 0 40px #ff00ff;
-    }
-    .game-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
-    button {
-      background: linear-gradient(90deg, #ff00ff, #00ffff);
-      border: none;
-      color: #000;
-      font-size: 1.2rem;
-      padding: 12px 30px;
-      border-radius: 50px;
-      cursor: pointer;
-      margin: 10px;
-      transition: all 0.3s;
-      box-shadow: 0 0 20px #ff00ff;
-    }
-    button:hover { transform: scale(1.1); box-shadow: 0 0 40px #00ffff; }
-    .auth-section {
-      background: rgba(0,0,0,0.6);
-      padding: 30px;
-      border-radius: 20px;
-      max-width: 500px;
-      margin: 30px auto;
-      border: 2px solid #00ffff;
-      box-shadow: 0 0 30px #00ffff;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: 1px solid #ff00ff;
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    .hidden { display: none; }
-    footer { text-align: center; padding: 20px; color: #aaa; }
-  </style>
+<meta charset="UTF-8">
+<title>DEMO Casino</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+<style>
+:root {
+    --neon: #00ffd5;
+    --gold: #ffb700;
+    --red: #ff4d4d;
+}
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #1a1a2e, #050510);
+    color:white;
+    text-align:center;
+}
+header {
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    background:rgba(0,0,0,.6);
+    box-shadow:0 0 20px var(--neon);
+}
+.balance {
+    color:var(--neon);
+    font-weight:bold;
+}
+.menu button {
+    margin:6px;
+    padding:12px 18px;
+    border-radius:14px;
+    border:none;
+    background:linear-gradient(135deg,var(--gold),#ff7b00);
+    font-weight:bold;
+    cursor:pointer;
+}
+.game { display:none; padding:20px; }
+.reel {
+    width:80px;height:80px;
+    font-size:40px;
+    background:#111;
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 15px var(--neon) inset;
+}
+.slot { display:flex; justify-content:center; gap:10px; margin:20px }
+button:active { transform:scale(.95) }
+
+.result { margin-top:10px }
+.win { color:#00ff88 }
+.lose { color:var(--red) }
+
+/* CRASH */
+.crash {
+    font-size:42px;
+    color:var(--neon);
+    text-shadow:0 0 20px var(--neon);
+}
+
+/* ROULETTE */
+.roulette {
+    font-size:60px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    from {transform:rotate(0deg)}
+    to {transform:rotate(360deg)}
+}
+
+/* MINES */
+.grid {
+    display:grid;
+    grid-template-columns:repeat(5,60px);
+    gap:8px;
+    justify-content:center;
+}
+.cell {
+    width:60px;height:60px;
+    background:#111;
+    border-radius:10px;
+    box-shadow:0 0 10px var(--neon);
+    cursor:pointer;
+    font-size:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>Crypto Neon Casino</h1>
-    <p>Неон, крипта, большие выигрыши!</p>
-  </header>
+<header>
+    <div>🎰 DEMO Casino</div>
+    <div class="balance">💰 <span id="balance">10000</span></div>
+</header>
 
-  <div class="container">
+<div class="menu">
+    <button onclick="show('slots')">🎰 Slots</button>
+    <button onclick="show('crash')">🚀 Crash</button>
+    <button onclick="show('roulette')">🎡 Roulette</button>
+    <button onclick="show('mines')">💣 Mines</button>
+</div>
 
-    <!-- Авторизация / Регистрация -->
-    <div id="auth" class="auth-section">
-      <h2>Вход / Регистрация</h2>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Пароль" required>
-      <button onclick="register()">Регистрация</button>
-      <button onclick="login()">Войти</button>
-      <p id="auth-msg" style="color:#ff4444;"></p>
+<!-- SLOTS -->
+<div id="slots" class="game">
+    <h2>Slots</h2>
+    <div class="slot">
+        <div class="reel" id="s1">🍒</div>
+        <div class="reel" id="s2">🍋</div>
+        <div class="reel" id="s3">🍇</div>
     </div>
+    <button onclick="spin()">SPIN (100)</button>
+    <div id="slotRes" class="result"></div>
+</div>
 
-    <!-- Панель после входа -->
-    <div id="dashboard" class="hidden">
-      <div class="balance-panel">
-        <h3>Баланс</h3>
-        <div class="balance" id="balance">0 монет</div>
-        <button onclick="showBuy()">Купить монеты (Crypto.com Pay)</button>
-      </div>
+<!-- CRASH -->
+<div id="crash" class="game">
+    <h2>Crash</h2>
+    <div id="crashVal" class="crash">1.00x</div>
+    <button onclick="startCrash()">СТАВКА 100</button>
+    <button onclick="cashout()">ЗАБРАТЬ</button>
+    <div id="crashRes" class="result"></div>
+</div>
 
-      <!-- Покупка монет -->
-      <div id="buy-section" class="hidden" style="text-align:center; margin:30px 0;">
-        <h2>Пополнить баланс</h2>
-        <p>Выбери сумму и оплати криптой</p>
-        <!-- Crypto.com Pay Button -->
-        <div id="pay-button"></div>
-        <script src="https://js.crypto.com/sdk?publishable-key=YOUR_PUBLISHABLE_KEY"></script>
-        <script>
-          // Пример: 100 USD → ~10000 монет (можно менять)
-          cryptopay.Button({
-            createPayment: function(actions) {
-              actions.payment.create({
-                currency: 'USD',
-                amount: 100,          // 100 USD
-                description: 'Пополнение 10000 монет в Crypto Neon Casino',
-                order_id: 'topup-' + Date.now(),
-                metadata: { user: localStorage.getItem('userEmail') || 'guest' }
-              });
-            },
-            onApprove: function(data, actions) {
-              alert('Оплата прошла! Монеты скоро будут зачислены. (В реальности — webhook/API)');
-              // Здесь в реальном проекте — backend webhook добавит монеты
-              addCoins(10000); // демо
-            },
-            defaultLang: 'ru-RU'
-          }).render("#pay-button");
-        </script>
-        <button onclick="hideBuy()">Закрыть</button>
-      </div>
+<!-- ROULETTE -->
+<div id="roulette" class="game">
+    <h2>Roulette</h2>
+    <div class="roulette">🎡</div>
+    <button onclick="playRoulette()">КРУТИТЬ (100)</button>
+    <div id="roulRes" class="result"></div>
+</div>
 
-      <h2>Игры</h2>
-      <div class="games-grid">
-        <div class="game-card">
-          <img src="https://thumbs.dreamstime.com/b/vibrant-slot-machine-set-glowing-neon-city-backdrop-accompanied-gold-coins-playing-cards-creating-dynamic-engaging-373669432.jpg" alt="Слоты">
-          <h3>Неоновые Слоты</h3>
-          <button onclick="playGame('Слоты')">Играть</button>
-        </div>
-        <div class="game-card">
-          <img src="https://thumbs.dreamstime.com/b/neon-illustration-depicting-casino-interior-scene-features-elements-like-roulette-table-slot-machines-poker-chips-417107296.jpg" alt="Рулетка">
-          <h3>Крипто-Рулетка</h3>
-          <button onclick="playGame('Рулетка')">Играть</button>
-        </div>
-        <div class="game-card">
-          <img src="https://thumbs.dreamstime.com/b/luxury-casino-interior-stacks-chips-bitcoin-coin-table-many-people-inside-night-scene-colorful-lights-vip-area-355805415.jpg" alt="Покер">
-          <h3>Техасский Холдем</h3>
-          <button onclick="playGame('Покер')">Играть</button>
-        </div>
-        <div class="game-card">
-          <img src="https://aibc.world/app/uploads/2024/05/btc-crypto-casinos-1.webp" alt="Blackjack">
-          <h3>Блэкджек</h3>
-          <button onclick="playGame('Блэкджек')">Играть</button>
-        </div>
-      </div>
-      <button onclick="logout()">Выйти</button>
-    </div>
-  </div>
+<!-- MINES -->
+<div id="mines" class="game">
+    <h2>Mines</h2>
+    <div class="grid" id="grid"></div>
+    <button onclick="startMines()">СТАВКА 100</button>
+    <div id="mineRes" class="result"></div>
+</div>
 
-  <footer>
-    © 2026 Crypto Neon Casino | Только 18+ | Играй ответственно
-  </footer>
+<script>
+const tg = Telegram.WebApp; tg.expand();
+let balance = 10000, bet = 100;
 
-  <script>
-    function register() {
-      const email = document.getElementById('email').value;
-      const pass = document.getElementById('password').value;
-      if (!email || !pass) return alert('Заполни поля!');
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userPass', pass); // НЕбезопасно! Только демо
-      localStorage.setItem('coins', 1000);
-      alert('Регистрация прошла! Теперь войди.');
+/* NAV */
+function show(id){
+    document.querySelectorAll('.game').forEach(g=>g.style.display='none');
+    document.getElementById(id).style.display='block';
+}
+
+/* SLOTS */
+const sym=["🍒","🍋","🍇","🔔","⭐","💎"];
+function spin(){
+    if(balance<bet)return;
+    balance-=bet;
+    let a=r(),b=r(),c=r();
+    s1.innerText=a; s2.innerText=b; s3.innerText=c;
+    let win=0;
+    if(a==b&&b==c)win=bet*5;
+    else if(a==b||b==c||a==c)win=bet*2;
+    if(win){balance+=win;res('slotRes',"🎉 +"+win,'win')}
+    else res('slotRes',"😢 Проигрыш",'lose');
+    upd();
+}
+
+/* CRASH */
+let cx=1,ct=null,ing=false;
+function startCrash(){
+    if(ing||balance<bet)return;
+    balance-=bet; cx=1; ing=true; upd();
+    ct=setInterval(()=>{
+        cx+=0.05;
+        crashVal.innerText=cx.toFixed(2)+"x";
+        if(Math.random()<0.02)boom();
+    },100);
+}
+function cashout(){
+    if(!ing)return;
+    clearInterval(ct);
+    let win=Math.floor(bet*cx);
+    balance+=win; ing=false;
+    res('crashRes',"💰 +"+win,'win'); upd();
+}
+function boom(){
+    clearInterval(ct); ing=false;
+    res('crashRes',"💥 CRASH",'lose');
+}
+
+/* ROULETTE */
+function playRoulette(){
+    if(balance<bet)return;
+    balance-=bet;
+    let win=Math.random()<0.45;
+    if(win){balance+=bet*2;res('roulRes',"🎉 Победа",'win')}
+    else res('roulRes',"😢 Проигрыш",'lose');
+    upd();
+}
+
+/* MINES */
+let bombs=[];
+function startMines(){
+    if(balance<bet)return;
+    balance-=bet; bombs=[];
+    for(let i=0;i<5;i++)bombs.push(Math.floor(Math.random()*25));
+    grid.innerHTML="";
+    for(let i=0;i<25;i++){
+        let d=document.createElement("div");
+        d.className="cell";
+        d.onclick=()=>openCell(i,d);
+        grid.appendChild(d);
     }
-
-    function login() {
-      const email = document.getElementById('email').value;
-      const pass = document.getElementById('password').value;
-      if (localStorage.getItem('userEmail') === email && localStorage.getItem('userPass') === pass) {
-        document.getElementById('auth').classList.add('hidden');
-        document.getElementById('dashboard').classList.remove('hidden');
-        updateBalance();
-      } else {
-        document.getElementById('auth-msg').textContent = 'Неверный email или пароль!';
-      }
+    upd();
+}
+function openCell(i,d){
+    if(bombs.includes(i)){
+        d.innerText="💣";
+        res('mineRes',"💥 ВЗРЫВ",'lose');
+    }else{
+        d.innerText="💎";
+        balance+=50;
+        res('mineRes',"+50",'win');
+        upd();
     }
+}
 
-    function logout() {
-      document.getElementById('dashboard').classList.add('hidden');
-      document.getElementById('auth').classList.remove('hidden');
-    }
+/* UTIL */
+function r(){return sym[Math.floor(Math.random()*sym.length)]}
+function upd(){
+    balance=Math.max(balance,0);
+    document.getElementById("balance").innerText=balance;
+    tg.sendData(JSON.stringify({balance}));
+}
+function res(id,t,c){
+    let e=document.getElementById(id);
+    e.className="result "+c;
+    e.innerText=t;
+}
+</script>
 
-    function updateBalance() {
-      const coins = localStorage.getItem('coins') || 0;
-      document.getElementById('balance').textContent = coins + ' монет';
-    }
-
-    function addCoins(amount) {
-      let coins = parseInt(localStorage.getItem('coins') || 0);
-      coins += amount;
-      localStorage.setItem('coins', coins);
-      updateBalance();
-    }
-
-    function playGame(name) {
-      alert(`Запускается ${name}... (демо — в реальности добавь логику игры)`);
-      // Здесь можно отнимать/добавлять монеты по результату
-    }
-
-    function showBuy() { document.getElementById('buy-section').classList.remove('hidden'); }
-    function hideBuy() { document.getElementById('buy-section').classList.add('hidden'); }
-
-    // Автологин если уже залогинен
-    if (localStorage.getItem('userEmail')) {
-      document.getElementById('auth').classList.add('hidden');
-      document.getElementById('dashboard').classList.remove('hidden');
-      updateBalance();
-    }
-  </script>
 </body>
 </html>
